@@ -56,6 +56,9 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
       case 203:
         state_string = 'detected an operational fault';
         break;
+      case 224:
+        state_string = 'booted and will enter deactivated mode once the sensor is stabilized';
+        break;
       default:
         state_string = 'encountered an unknown error';
         break;
