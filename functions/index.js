@@ -53,9 +53,6 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
       case 202:
         state_string = 'detected a hardware fault';
         break;
-      case 203:
-        state_string = 'detected an operational fault';
-        break;
       case 224:
         state_string = 'booted and will enter deactivated mode once the sensor is stabilized';
         break;
@@ -82,6 +79,12 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
         icon: 'https://github.com/edward62740/Wireless-Mesh-Network-System/blob/master/Documentation/ltsn.png',
       }
     };
+    const warning_end_pirsn_HIGH = {
+      notification: {
+        title: 'I²DS Messaging Service',
+        body: 'The system has encountered a likely intrusion event.',
+      }
+    };
     const priority = {
       android: {
         priority: 'high',
@@ -93,10 +96,14 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
     levels = Object.values(tokensSnapshot.val());
     const tokensToRemove = [];
     await Promise.all(tokens.map(async (token, index) => {
-      let response = (devices[devId].state == 204) ?
-        ((devices[devId].hw == 137) ? await admin.messaging().sendToDevice(token, warning_payload_pirsn, priority)
-          : await admin.messaging().sendToDevice(token, warning_payload_acsn, priority))
-        : (levels[index] == 1 || levels[index] == 3) ? await admin.messaging().sendToDevice(token, info_payload, priority) : null;
+      let response = (devices[devId].hw == 137 && devices[devId].state == 5 && devices[devId].trigd > 2) ? 
+      await admin.messaging().sendToDevice(token, warning_end_pirsn_HIGH, priority) : (devices[devId].state == 204) ?
+      ((devices[devId].hw == 137) ? 
+      await admin.messaging().sendToDevice(token, warning_payload_pirsn, priority)
+      : await admin.messaging().sendToDevice(token, warning_payload_acsn, priority))
+      : ((levels[index] == 1 || levels[index] == 3) && (!devices[devId].hw == 138)) ? 
+      await admin.messaging().sendToDevice(token, info_payload, priority) 
+      : null;
       const error = response.results[0].error;
       if (error) {
         functions.logger.error(
