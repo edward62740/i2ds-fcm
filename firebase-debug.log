@@ -1,0 +1,15 @@
+[debug] [2022-05-16T09:35:36.679Z] ----------------------------------------------------------------------
+[debug] [2022-05-16T09:35:36.681Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Workstation\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-05-16T09:35:36.681Z] CLI Version:   10.9.2
+[debug] [2022-05-16T09:35:36.681Z] Platform:      win32
+[debug] [2022-05-16T09:35:36.681Z] Node Version:  v16.15.0
+[debug] [2022-05-16T09:35:36.682Z] Time:          Mon May 16 2022 17:35:36 GMT+0800 (Singapore Standard Time)
+[debug] [2022-05-16T09:35:36.682Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-05-16T09:35:36.684Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-05-16T09:35:36.740Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-05-16T09:35:36.740Z] > authorizing via signed-in user (edward.62740@gmail.com)
+[debug] [2022-05-16T09:35:36.741Z] [iam] checking project i2ds-db for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update"]
+[debug] [2022-05-16T09:35:36.741Z] > refreshing access token with scopes: []
+[debug] [2022-05-16T09:35:36.742Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>

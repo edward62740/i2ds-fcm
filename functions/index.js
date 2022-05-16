@@ -101,7 +101,7 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
       ((devices[devId].hw == 137) ? 
       await admin.messaging().sendToDevice(token, warning_payload_pirsn, priority)
       : await admin.messaging().sendToDevice(token, warning_payload_acsn, priority))
-      : ((levels[index] == 1 || levels[index] == 3) && (!devices[devId].hw == 138)) ? 
+      : ((levels[index] == 1 || levels[index] == 3) && (devices[devId].hw != 138)) ? 
       await admin.messaging().sendToDevice(token, info_payload, priority) 
       : null;
       const error = response.results[0].error;
