@@ -17,15 +17,21 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
     const getDeviceInfoPromise = admin.database()
       .ref(`/devices`).once('value');
 
-    let tokensSnapshot;
-    let deviceSnapshot;
-    let tokens;
-    let devices, levels;
+    const getDeviceLocPromise = admin.database()
+      .ref(`/tag`).once('value');
+
+    let tokensSnapshot, deviceSnapshot, locSnapshot;
+    let tokens, levels;
+    let devices;
+    let loc;
 
     tokensSnapshot = await Promise.resolve(getTokensPromise);
     deviceSnapshot = await Promise.resolve(getDeviceInfoPromise);
+    locSnapshot = await Promise.resolve(getDeviceLocPromise);
 
     devices = Object.values(deviceSnapshot.val());
+    loc = Object.values(locSnapshot.val());
+    let loc_keys = Object.keys(locSnapshot.val());
 
     let hw_string;
     switch (devices[devId].hw) {
@@ -60,16 +66,23 @@ exports.I2DSstateChangeNotification = functions.region('asia-southeast1').databa
         state_string = 'encountered an unknown error';
         break;
     }
+    let loc_string;
+    loc_string = 'an unknown location';
+    loc_keys.forEach((key, index) => {
+      if(key == devId)
+      loc_string = 'the ' + loc[index];
+
+    });
     const warning_payload_pirsn = {
       notification: {
         title: 'I²DS Messaging Service',
-        body: 'WARNING! ' + hw_string + ' (ID ' + devices[devId].self_id + ') has detected motion.',
+        body: 'WARNING! ' + hw_string + ' (ID ' + devices[devId].self_id + ') in ' + loc_string + ' has detected motion.',
       }
     };
     const warning_payload_acsn = {
       notification: {
         title: 'I²DS Messaging Service',
-        body: 'WARNING! ' + hw_string + ' (ID ' + devices[devId].self_id + ') has detected that a door has been opened. Refer to the tagged location of this sensor.',
+        body: 'WARNING! ' + hw_string + ' (ID ' + devices[devId].self_id + ') has detected that the door in ' + loc_string + ' has been opened.',
       }
     };
     const info_payload = {
