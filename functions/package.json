@@ -2,7 +2,7 @@
   "name": "fcm-notifications-functions",
   "description": "Send FCM notifications",
   "dependencies": {
-    "firebase-admin": "^11.3.0",
+    "firebase-admin": "^11.4.0",
     "firebase-functions": "^4.1.0"
   },
   "devDependencies": {
